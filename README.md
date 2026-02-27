@@ -3,7 +3,6 @@
 A production-ready digital agricultural marketplace inspired by the Government of India's AgriTrade portal.
 
 ## 🚀 Quick Start
-
 ```bash
 cd enam-app
 npm install
