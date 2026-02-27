@@ -1,223 +1,99 @@
-# Decotech
-# 🌾 Smart Agricultural Barter System  
-### 🚜 A Trust-Enabled Rural Exchange Framework
-
----
-
-## 📌 Overview
-
-The **Smart Agricultural Barter System** is a scalable, trust-enabled digital platform designed to enable structured, transparent, and efficient value-based exchange of agricultural produce, services, and resources among rural stakeholders.
-
-This platform empowers small and marginal farmers by:
-
-- Eliminating dependency on middlemen  
-- Enabling digital barter via credits  
-- Providing transparent market-based valuation  
-- Building trust through reputation scoring  
-
----
-
-## 🎯 Problem Statement
-
-Small and marginal farmers often operate in localized rural economies where:
-
-- ❌ Direct access to formal markets is limited  
-- ❌ Transparent price discovery is unavailable  
-- ❌ Peer-to-peer exchange lacks trust mechanisms  
-- ❌ No structured dispute resolution exists  
-- ❌ Financial liquidity is low  
-
-As a result, farmers depend on intermediaries and distress sales, leading to reduced income realization.
-
-Our system digitizes and structures agricultural barter into a scalable rural exchange ecosystem.
-
----
-
-# 🏗 Core Modules & Functionalities
-
----
-
-## 📊 1. Market-Based Valuation Engine
-
-**Purpose:** Provide fair and transparent pricing for goods and services.
-
-### Features:
-- Real-time mandi/market price integration  
-- AI-driven fair value calculation  
-- Seasonal & regional price adjustment  
-- Conversion of goods value into digital credits  
-
----
-
-## 💳 2. Credit Exchange System
-
-**Purpose:** Enable structured barter via digital credits.
-
-### How It Works:
-- Goods/services → Converted into standardized credits  
-- Credits → Used to purchase other goods/services  
-- Supports partial credit + cash transactions  
-
-### Benefits:
-- Enables multi-party exchange  
-- Improves liquidity  
-- Removes need for direct 1:1 barter  
-
----
-
-## 🔍 3. Smart Search & Goods Discovery
-
-**Features:**
-- Category-based filtering  
-- Keyword search  
-- Location-based search  
-- Availability filtering  
-- AI-powered recommendations  
-
----
-
-## 💬 4. Peer-to-Peer Chat System
-
-**Features:**
-- Secure in-app messaging  
-- Negotiation support  
-- Image/file sharing  
-- Transaction-linked conversations  
-
----
-
-## ⭐ 5. Trust Score System
-
-Each user is assigned a dynamic trust score based on:
-
-- Successful transactions  
-- Ratings & reviews  
-- Dispute history  
-- Delivery confirmations  
-- Platform activity  
-
-Higher trust score = higher transaction credibility.
-
----
-
-## 🤖 6. AI Chatbot Assistant
-
-Provides:
-
-- Listing assistance  
-- Exchange guidance  
-- Price explanation  
-- Multilingual support  
-- Transaction help  
-
-Designed for low digital literacy users.
-
----
-
-## 🗺 7. Geographical Mapping System
-
-- Location-tagged listings  
-- Nearby goods discovery  
-- Distance estimation  
-- Rural route assistance  
-- Geo-clustering of exchange opportunities  
-
----
-
-## 🌐 8. Multilingual Support
-
-Supports regional adoption through:
-
-- Localized UI  
-- Hindi & regional languages  
-- Expandable language framework  
-
----
-
-## 📱 9. Keypad Payment Integration
-
-For feature phone users:
-
-- USSD-based payments  
-- SMS confirmation  
-- OTP-based authentication  
-- Low-bandwidth compatibility  
-
-Ensures digital inclusion.
-
----
-
-# 🧠 System Architecture
-
-## Frontend
-- Mobile-first UI  
-- Low-bandwidth optimized  
-- Multilingual interface  
-
-## Backend
-- REST APIs  
-- Credit ledger engine  
-- Trust score service  
-- Chat service  
-- AI valuation module  
-
-## Database
-- Users  
-- Listings  
-- Transactions  
-- Credit ledger  
-- Ratings & trust metrics  
-
----
-
-# 🔐 Security & Trust Layer
-
-- OTP-based authentication  
-- Encrypted communication  
-- Escrow-style credit locking  
-- Dispute resolution module  
-- Optional KYC integration  
-
----
-
-# 📈 Scalability Strategy
-
-Designed to scale from:
-
-Village → District → State → National Agricultural Exchange Network  
-
-Microservice-ready backend for horizontal scaling.
-
----
-
-# 🌍 Social Impact
-
-- 📈 Increased farmer income  
-- 🤝 Reduced intermediary dependence  
-- 💰 Improved rural liquidity  
-- 🔒 Strong trust ecosystem  
-- 🌱 Efficient local resource utilization  
-
----
-
-# 🚀 Future Enhancements
-
-- Blockchain-based smart contracts  
-- IoT-based crop quality validation  
-- Government procurement integration  
-- AI demand forecasting  
-- Rural logistics integration  
-
----
-
-# 👨‍💻 Hackathon Project
-
-Built under the theme:  
-**Smart Agricultural Barter System – Trust-Enabled Rural Exchange Framework**
-
-
----
-
-## 📜 License
-
-This project is built for educational and hackathon purposes.
+# eNAM AgriMarket — Next.js 15 + Firebase + TailwindCSS
+
+A production-ready digital agricultural marketplace inspired by the Government of India's eNAM portal.
+
+## 🚀 Quick Start
+
+```bash
+cd enam-app
+npm install
+npm run dev        # Development server at localhost:3000
+npm run build      # Production build
+npm run start      # Production server
+```
+
+## 📂 Project Structure
+
+```
+src/
+├── app/
+│   ├── page.tsx            ← Landing/Hero + Testimonials + MSP Table
+│   ├── login/page.tsx      ← Phone OTP + Keypad + Google Sign-in
+│   ├── register/page.tsx   ← Farmer/Trader registration
+│   ├── marketplace/        ← Search Surplus, Post Surplus, Listings
+│   ├── trade/[id]/         ← Chat Interface + Confirm Trade + Escrow
+│   ├── dashboard/          ← Wallet, Transactions, Analytics
+│   ├── prices/             ← Live MSP prices + AC conversion
+│   ├── about/              ← Full AgriCredit system explainer
+│   └── chat/[id]/          ← Chat redirect
+├── components/
+│   ├── Navbar.tsx           ← Responsive nav with auth state
+│   └── Chatbot.tsx          ← AgriBot domain-aware chatbot
+├── context/
+│   ├── AuthContext.tsx      ← Firebase Phone Auth provider
+│   └── ChatContext.tsx      ← Chatbot state & responses
+└── lib/
+    ├── firebase.ts          ← Firebase initialization
+    ├── agriCredit.ts        ← MSP pegging, rewards, escrow math
+    └── marketplace.ts       ← Firestore CRUD + atomic transactions
+```
+
+## 🌾 AgriCredit System
+
+**Peg:** 1 AC = ₹22.75 (Wheat MSP 2024-25 per kg)
+
+| Action                  | Reward    |
+|-------------------------|-----------|
+| Post listing            | +5 AC     |
+| Complete trade (seller) | +10 AC    |
+| First trade/month       | +25 AC    |
+| Verify farmer           | +15 AC    |
+| Grade A produce         | +20 AC    |
+| Refer new farmer        | +50 AC    |
+
+**Platform Fee:** 1% deducted on each trade  
+**Escrow:** Buyer's ACs locked at bid → released after delivery confirmation  
+**Decay:** Credits inactive 12+ months → 2%/month decay (anti-hoarding)
+
+## 🔥 Firebase Configuration
+
+In `.env.local` (already set up):
+```
+NEXT_PUBLIC_FIREBASE_API_KEY=...
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=...
+...
+```
+
+> ⚠️ For Firebase Phone Auth billing:
+> Enable Phone Authentication in Firebase Console → Authentication → Sign-in providers.
+> Requires Blaze (pay-as-you-go) plan.
+
+## 📱 KaiOS / Feature Phone Support
+
+- All buttons have `min-height: 44px` (touch-friendly)
+- OTP keypad designed like a physical phone keypad
+- Base font size 16px for readability
+- Minimal JavaScript, fast initial load (< 200KB CSS)
+- No complex WebGL or heavy animations on entry
+
+## 🗺️ Pages
+
+| Route          | Description                              |
+|----------------|------------------------------------------|
+| `/`            | Landing page with hero, testimonials      |
+| `/login`       | Phone OTP + Google Sign-in               |
+| `/register`    | Farmer/Trader registration flow           |
+| `/marketplace` | Browse & post surplus crops              |
+| `/trade/[id]`  | Chat → Confirm → Escrow → Complete       |
+| `/dashboard`   | Wallet, analytics, rewards               |
+| `/prices`      | Live MSP + AgriCredit conversions        |
+| `/about`       | Full AgriCredit system documentation     |
+
+## 🚀 Deploy to Vercel
+
+```bash
+vercel --prod
+```
+
+Set environment variables in Vercel dashboard matching `.env.local`.

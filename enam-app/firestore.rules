@@ -1,0 +1,27 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allows any authenticated user to create or update their own profile
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Allows any authenticated user to read and write listings
+    match /listings/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Allows any authenticated user to read and write escrow agreements
+    match /escrow/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Fallback rule for development (Warning: In production, explicitly define all collections! 
+    // This allows any logged in user full access to anything not explicitly matched above)
+    // match /{document=**} {
+    //   allow read, write: if request.auth != null;
+    // }
+  }
+}
