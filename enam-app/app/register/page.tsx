@@ -12,13 +12,134 @@ import { getDemoStore } from '@/lib/demo-store';
 import toast from 'react-hot-toast';
 import type { ConfirmationResult } from 'firebase/auth';
 
-const STATES = [
-  'Andhra Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Gujarat',
-  'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
-  'Madhya Pradesh', 'Maharashtra', 'Odisha', 'Punjab', 'Rajasthan',
-  'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand',
-  'West Bengal', 'Jammu & Kashmir',
-];
+// ── Cascading location data ──────────────────────────────────────────────────
+const LOCATION_DATA: Record<string, Record<string, string[]>> = {
+  'Andhra Pradesh': {
+    'Guntur': ['Guntur City', 'Narasaraopet', 'Sattenapalle', 'Tenali'],
+    'Krishna': ['Vijayawada', 'Machilipatnam', 'Gudivada', 'Nuzvid'],
+    'Kurnool': ['Kurnool City', 'Nandyal', 'Adoni', 'Dhone'],
+    'West Godavari': ['Eluru', 'Bhimavaram', 'Kovvur', 'Tanuku'],
+  },
+  'Assam': {
+    'Kamrup': ['Guwahati', 'Hajo', 'Kamalpur', 'Rani'],
+    'Dibrugarh': ['Dibrugarh', 'Naharkatia', 'Duliajan', 'Chabua'],
+    'Nagaon': ['Nagaon', 'Hojai', 'Lumding', 'Doboka'],
+  },
+  'Bihar': {
+    'Patna': ['Patna City', 'Bikram', 'Barh', 'Khusrupur'],
+    'Gaya': ['Gaya City', 'Bodh Gaya', 'Aurangabad', 'Sherghati'],
+    'Muzaffarpur': ['Muzaffarpur City', 'Sitamarhi', 'Sheohar', 'Motihari'],
+    'Bhojpur': ['Ara', 'Piro', 'Sandesh', 'Jagdishpur'],
+  },
+  'Chhattisgarh': {
+    'Raipur': ['Raipur City', 'Abhanpur', 'Arang', 'Tilda'],
+    'Bilaspur': ['Bilaspur City', 'Katghora', 'Pendra', 'Mungeli'],
+    'Durg': ['Durg City', 'Bhilai', 'Patan', 'Bemetara'],
+  },
+  'Gujarat': {
+    'Ahmedabad': ['Ahmedabad City', 'Dholka', 'Dhandhuka', 'Bavla'],
+    'Surat': ['Surat City', 'Bardoli', 'Mandvi', 'Navsari'],
+    'Vadodara': ['Vadodara City', 'Karjan', 'Dabhoi', 'Padra'],
+    'Anand': ['Anand City', 'Kheda', 'Nadiad', 'Petlad'],
+  },
+  'Haryana': {
+    'Karnal': ['Karnal City', 'Gharaunda', 'Indri', 'Nilokheri'],
+    'Hisar': ['Hisar City', 'Hansi', 'Narnaul', 'Fatehabad'],
+    'Ambala': ['Ambala City', 'Naraingarh', 'Barara', 'Mullana'],
+    'Rohtak': ['Rohtak City', 'Meham', 'Kalanaur', 'Makrauli'],
+  },
+  'Himachal Pradesh': {
+    'Shimla': ['Shimla City', 'Rampur', 'Chopal', 'Theog'],
+    'Kullu': ['Kullu City', 'Manali', 'Banjar', 'Anni'],
+    'Kangra': ['Dharamshala', 'Palampur', 'Nurpur', 'Baijnath'],
+  },
+  'Jharkhand': {
+    'Ranchi': ['Ranchi City', 'Kanke', 'Bundu', 'Tamar'],
+    'Dhanbad': ['Dhanbad City', 'Jharia', 'Topchanchi', 'Sindri'],
+    'Bokaro': ['Bokaro City', 'Chas', 'Bermo', 'Petarbar'],
+  },
+  'Karnataka': {
+    'Bengaluru Urban': ['Bengaluru City', 'Anekal', 'Hoskote', 'Doddaballapura'],
+    'Mysuru': ['Mysuru City', 'Nanjangud', 'Hunsur', 'Gundlupet'],
+    'Belagavi': ['Belagavi City', 'Gokak', 'Nippani', 'Ramdurg'],
+    'Dharwad': ['Dharwad City', 'Hubli', 'Kundgol', 'Navalgund'],
+  },
+  'Kerala': {
+    'Thiruvananthapuram': ['Thiruvananthapuram City', 'Attingal', 'Varkala', 'Neyyattinkara'],
+    'Ernakulam': ['Kochi City', 'Aluva', 'Perumbavoor', 'Muvattupuzha'],
+    'Thrissur': ['Thrissur City', 'Chalakudy', 'Irinjalakuda', 'Guruvayur'],
+    'Kozhikode': ['Kozhikode City', 'Vadakara', 'Koyilandy', 'Feroke'],
+  },
+  'Madhya Pradesh': {
+    'Indore': ['Indore City', 'Depalpur', 'Mhow', 'Sanwer'],
+    'Bhopal': ['Bhopal City', 'Berasia', 'Sehore', 'Mandideep'],
+    'Ujjain': ['Ujjain City', 'Nagda', 'Mahidpur', 'Khachrod'],
+    'Gwalior': ['Gwalior City', 'Dabra', 'Bhitarwar', 'Pichhore'],
+  },
+  'Maharashtra': {
+    'Pune': ['Pune City', 'Haveli', 'Baramati', 'Shirur'],
+    'Nagpur': ['Nagpur City', 'Kamthi', 'Hingna', 'Ramtek'],
+    'Nashik': ['Nashik City', 'Niphad', 'Yeola', 'Sinnar'],
+    'Aurangabad': ['Aurangabad City', 'Paithan', 'Kannad', 'Gangapur'],
+  },
+  'Odisha': {
+    'Cuttack': ['Cuttack City', 'Athagarh', 'Salepur', 'Nischintakoili'],
+    'Bhubaneswar': ['Bhubaneswar City', 'Balianta', 'Jatni', 'Khordha'],
+    'Sambalpur': ['Sambalpur City', 'Rengali', 'Bargarh', 'Jharsuguda'],
+  },
+  'Punjab': {
+    'Ludhiana': ['Ludhiana City', 'Khanna', 'Samrala', 'Raikot'],
+    'Amritsar': ['Amritsar City', 'Attari', 'Ajnala', 'Baba Bakala'],
+    'Jalandhar': ['Jalandhar City', 'Nakodar', 'Phillaur', 'Shahkot'],
+    'Patiala': ['Patiala City', 'Nabha', 'Sangrur', 'Rajpura'],
+  },
+  'Rajasthan': {
+    'Jaipur': ['Jaipur City', 'Chomu', 'Amber', 'Sanganer'],
+    'Jodhpur': ['Jodhpur City', 'Phalodi', 'Bilara', 'Pipar'],
+    'Kota': ['Kota City', 'Ladpura', 'Sangod', 'Ramganj Mandi'],
+    'Ajmer': ['Ajmer City', 'Kishangarh', 'Beawar', 'Nasirabad'],
+  },
+  'Tamil Nadu': {
+    'Chennai': ['Chennai City', 'Ambattur', 'Sholinganallur', 'Tambaram'],
+    'Coimbatore': ['Coimbatore City', 'Pollachi', 'Tiruppur', 'Mettupalayam'],
+    'Madurai': ['Madurai City', 'Melur', 'Thirumangalam', 'Usilampatti'],
+    'Salem': ['Salem City', 'Omalur', 'Mettur', 'Attur'],
+  },
+  'Telangana': {
+    'Hyderabad': ['Hyderabad City', 'Rangareddy', 'LB Nagar', 'Uppal'],
+    'Warangal': ['Warangal City', 'Hanamkonda', 'Kazipet', 'Narsampet'],
+    'Nalgonda': ['Nalgonda City', 'Suryapet', 'Miryalaguda', 'Nakrekal'],
+  },
+  'Tripura': {
+    'West Tripura': ['Agartala', 'Mohanpur', 'Jirania', 'Majlishpur'],
+    'North Tripura': ['Dharmanagar', 'Kailashahar', 'Kumarghat', 'Pecharthal'],
+  },
+  'Uttar Pradesh': {
+    'Lucknow': ['Lucknow City', 'Mohanlalganj', 'Bakshi Ka Talab', 'Malihabad'],
+    'Kanpur': ['Kanpur City', 'Ghatampur', 'Bilhaur', 'Bhitargaon'],
+    'Agra': ['Agra City', 'Etmadpur', 'Kheragarh', 'Fatehabad'],
+    'Varanasi': ['Varanasi City', 'Pindra', 'Bhadohi', 'Mirzapur'],
+    'Meerut': ['Meerut City', 'Hapur', 'Modinagar', 'Sardhana'],
+  },
+  'Uttarakhand': {
+    'Dehradun': ['Dehradun City', 'Rishikesh', 'Doiwala', 'Vikasnagar'],
+    'Haridwar': ['Haridwar City', 'Roorkee', 'Laksar', 'Bhagwanpur'],
+    'Nainital': ['Nainital City', 'Haldwani', 'Kashipur', 'Ramnagar'],
+  },
+  'West Bengal': {
+    'Kolkata': ['Kolkata City', 'Howrah', 'Salt Lake', 'Dum Dum'],
+    'Burdwan': ['Asansol', 'Durgapur', 'Burdwan City', 'Kalna'],
+    'Murshidabad': ['Berhampore', 'Jangipur', 'Lalbagh', 'Domkal'],
+    'North 24 Parganas': ['Barasat', 'Barrackpore', 'Basirhat', 'Bangaon'],
+  },
+  'Jammu & Kashmir': {
+    'Jammu': ['Jammu City', 'Samba', 'Udhampur', 'Kathua'],
+    'Srinagar': ['Srinagar City', 'Ganderbal', 'Budgam', 'Pulwama'],
+    'Anantnag': ['Anantnag City', 'Bijbehara', 'Pahalgam', 'Kokernag'],
+  },
+};
+
+const STATES = Object.keys(LOCATION_DATA).sort();
 
 const BENEFITS = [
   { icon: Coins, title: 'MSP-Pegged Credits', desc: 'Trade with stable, government-backed AgriCredits' },
@@ -32,16 +153,31 @@ export default function RegisterPage() {
   const { sendOTP, verifyOTP, login, isDemo, signInWithGoogle } = useAuth();
 
   const [step, setStep] = useState<'details' | 'otp'>('details');
-  const [role, setRole] = useState<'farmer' | 'trader'>('farmer');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [village, setVillage] = useState('');
   const [state, setState] = useState('');
+  const [district, setDistrict] = useState('');
+  const [village, setVillage] = useState('');
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [confirmation, setConfirmation] = useState<ConfirmationResult | null>(null);
 
-  const canProceed = name.trim() && phone.length === 10 && village.trim() && state;
+  // Derived district & village lists from selected state/district
+  const districts = state ? Object.keys(LOCATION_DATA[state] || {}).sort() : [];
+  const villages = state && district ? (LOCATION_DATA[state]?.[district] || []) : [];
+
+  const handleStateChange = (s: string) => {
+    setState(s);
+    setDistrict('');
+    setVillage('');
+  };
+
+  const handleDistrictChange = (d: string) => {
+    setDistrict(d);
+    setVillage('');
+  };
+
+  const canProceed = name.trim() && phone.length === 10 && state && district && village;
 
   const handleSendOTP = async () => {
     if (!canProceed) {
@@ -78,9 +214,9 @@ export default function RegisterPage() {
         store.updateUser({
           name,
           phone: `+91${phone}`,
-          village: village || 'Rampur',
-          state: state || 'Uttar Pradesh',
-          role,
+          village: `${village}, ${district}`,
+          state,
+          role: 'farmer',
         });
         login(store.getUser());
         toast.success('Welcome to AgriTrade! 50 AC credited.');
@@ -97,15 +233,16 @@ export default function RegisterPage() {
     }
   };
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Prevent the event from bubbling up to any parent form/button
+    e.preventDefault();
+    e.stopPropagation();
     setLoading(true);
     try {
       if (isDemo) {
         toast('Google sign-in is disabled in Demo Mode', { icon: 'ℹ️' });
       } else {
         const profile = await signInWithGoogle();
-        // Since we don't have all details from Google, we could prompt for them later, 
-        // but for now we just log them in to match the login flow.
         login(profile);
         toast.success('Registration successful with Google!');
         router.push('/dashboard');
@@ -132,14 +269,8 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <h2 style={{ fontSize: 28, fontWeight: 700, fontFamily: 'Space Grotesk, sans-serif', lineHeight: 1.3, marginBottom: 12, color: 'white' }}>
-          Join India&rsquo;s Largest Farmer-First Trading Platform
-        </h2>
-        <p style={{ fontSize: 14, opacity: 0.75, lineHeight: 1.7, marginBottom: 32 }}>
-          Trade directly with MSP-pegged AgriCredits. No middlemen, no delays.
-        </p>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 40 }}>
+        {/* Benefits list (kept, the title/subtitle + gift card are removed) */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {BENEFITS.map((b, i) => (
             <div key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
               <div style={{ width: 36, height: 36, borderRadius: 'var(--radius-md)', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -151,15 +282,6 @@ export default function RegisterPage() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* 50 AC card */}
-        <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 'var(--radius-lg)', padding: 20, border: '1px solid rgba(255,255,255,0.15)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-            <Coins size={20} color="var(--amber-400)" />
-            <span style={{ fontSize: 15, fontWeight: 700 }}>Welcome Gift</span>
-          </div>
-          <div style={{ fontSize: 13, opacity: 0.8 }}><strong>50 AC</strong> credited instantly on registration.</div>
         </div>
       </div>
 
@@ -174,48 +296,11 @@ export default function RegisterPage() {
             <h1 style={{ fontSize: 20, fontWeight: 800, fontFamily: 'Space Grotesk, sans-serif' }}>AgriTrade</h1>
           </div>
 
-          {/* Step indicator */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 28 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 'var(--radius-full)', background: step === 'details' ? 'var(--green-600)' : 'var(--green-100)', color: step === 'details' ? 'white' : 'var(--green-700)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700 }}>1</div>
-            <span style={{ fontSize: 13, fontWeight: step === 'details' ? 600 : 400, color: step === 'details' ? 'var(--text-primary)' : 'var(--text-muted)' }}>Details</span>
-            <div style={{ flex: 1, height: 2, background: step === 'otp' ? 'var(--green-500)' : 'var(--border)', borderRadius: 99 }} />
-            <div style={{ width: 28, height: 28, borderRadius: 'var(--radius-full)', background: step === 'otp' ? 'var(--green-600)' : 'var(--green-100)', color: step === 'otp' ? 'white' : 'var(--green-700)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700 }}>2</div>
-            <span style={{ fontSize: 13, fontWeight: step === 'otp' ? 600 : 400, color: step === 'otp' ? 'var(--text-primary)' : 'var(--text-muted)' }}>OTP</span>
-          </div>
-
           <div className="card" style={{ padding: 28 }}>
             {step === 'details' ? (
               <>
                 <h2 style={{ fontSize: 22, fontWeight: 700, fontFamily: 'Space Grotesk, sans-serif', marginBottom: 4 }}>Create Account</h2>
                 <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 24 }}>Fill in your details to get started</p>
-
-                {/* Role toggle */}
-                <div style={{ marginBottom: 20 }}>
-                  <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 8, display: 'block' }}>I am a</label>
-                  <div style={{ display: 'flex', gap: 8 }}>
-                    {(['farmer', 'trader'] as const).map(r => (
-                      <button
-                        key={r}
-                        onClick={() => setRole(r)}
-                        style={{
-                          flex: 1,
-                          padding: '10px 16px',
-                          borderRadius: 'var(--radius-md)',
-                          border: `2px solid ${role === r ? 'var(--green-500)' : 'var(--border)'}`,
-                          background: role === r ? 'var(--green-50)' : 'var(--bg-surface)',
-                          color: role === r ? 'var(--green-700)' : 'var(--text-muted)',
-                          fontWeight: 600,
-                          fontSize: 14,
-                          cursor: 'pointer',
-                          textTransform: 'capitalize',
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        {r === 'farmer' ? '🌾 ' : '📦 '}{r}
-                      </button>
-                    ))}
-                  </div>
-                </div>
 
                 {/* Name */}
                 <div style={{ marginBottom: 16 }}>
@@ -245,47 +330,56 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* Village */}
-                <div style={{ marginBottom: 16 }}>
-                  <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 6, display: 'block' }}>Village / Town</label>
-                  <input
-                    className="input"
-                    type="text"
-                    value={village}
-                    onChange={e => setVillage(e.target.value)}
-                    placeholder="e.g. Rampur"
-                  />
-                  {isDemo && (
-                    <p style={{ fontSize: 11, color: 'var(--text-faint)', marginTop: 4 }}>Enter &quot;Rampur&quot; to see sample listings</p>
-                  )}
-                </div>
-
                 {/* State */}
-                <div style={{ marginBottom: 24 }}>
+                <div style={{ marginBottom: 16 }}>
                   <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 6, display: 'block' }}>State</label>
                   <select
                     className="input"
                     value={state}
-                    onChange={e => setState(e.target.value)}
+                    onChange={e => handleStateChange(e.target.value)}
                   >
-                    <option value="">Select your state</option>
+                    <option value="">Select state</option>
                     {STATES.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
 
-                {/* Welcome gift callout */}
-                <div className="card-tinted" style={{ padding: 14, display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, borderRadius: 'var(--radius-md)' }}>
-                  <Coins size={18} color="var(--amber-500)" />
-                  <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-                    Get <strong style={{ color: 'var(--green-700)' }}>50 AgriCredits</strong> free on signup
-                  </span>
+                {/* District */}
+                <div style={{ marginBottom: 16 }}>
+                  <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 6, display: 'block' }}>District</label>
+                  <select
+                    className="input"
+                    value={district}
+                    onChange={e => handleDistrictChange(e.target.value)}
+                    disabled={!state}
+                    style={{ opacity: !state ? 0.5 : 1 }}
+                  >
+                    <option value="">{state ? 'Select district' : 'Select state first'}</option>
+                    {districts.map(d => <option key={d} value={d}>{d}</option>)}
+                  </select>
                 </div>
 
+                {/* Village */}
+                <div style={{ marginBottom: 24 }}>
+                  <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', marginBottom: 6, display: 'block' }}>Village / Town</label>
+                  <select
+                    className="input"
+                    value={village}
+                    onChange={e => setVillage(e.target.value)}
+                    disabled={!district}
+                    style={{ opacity: !district ? 0.5 : 1 }}
+                  >
+                    <option value="">{district ? 'Select village/town' : 'Select district first'}</option>
+                    {villages.map(v => <option key={v} value={v}>{v}</option>)}
+                  </select>
+                </div>
+
+                {/* Send OTP button — disabled until phone is 10 digits */}
                 <button
                   className="btn btn-primary btn-lg"
+                  type="button"
                   style={{ width: '100%' }}
                   onClick={handleSendOTP}
-                  disabled={loading || !canProceed}
+                  disabled={loading || !canProceed || phone.length !== 10}
                 >
                   {loading ? 'Sending OTP...' : <>Continue <ArrowRight size={16} /></>}
                 </button>
@@ -295,10 +389,11 @@ export default function RegisterPage() {
                   <span style={{ background: 'var(--bg-canvas)', padding: '0 8px', fontSize: 13, color: 'var(--text-muted)', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>or</span>
                 </div>
 
-                {/* Google sign-in */}
+                {/* Google sign-in — type="button" prevents form propagation */}
                 <button
                   className="btn btn-outline"
-                  style={{ width: '100%', marginBottom: 16, background: 'var(--bg-surface)' }}
+                  type="button"
+                  style={{ width: '100%', marginBottom: 4, background: 'var(--bg-surface)' }}
                   onClick={handleGoogleSignIn}
                   disabled={loading}
                 >
@@ -315,6 +410,7 @@ export default function RegisterPage() {
               <>
                 <button
                   className="btn btn-ghost"
+                  type="button"
                   style={{ marginBottom: 16, padding: '6px 0', fontSize: 13 }}
                   onClick={() => { setStep('details'); setOtp(''); }}
                 >
@@ -347,17 +443,18 @@ export default function RegisterPage() {
                 <div className="card-tinted" style={{ padding: 14, display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, borderRadius: 'var(--radius-md)' }}>
                   <Smartphone size={16} color="var(--green-600)" />
                   <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
-                    Registering as <strong style={{ textTransform: 'capitalize' }}>{role}</strong> &middot; {name} &middot; {village}, {state}
+                    {name} &middot; {village}, {district}, {state}
                   </div>
                 </div>
 
                 <button
                   className="btn btn-primary btn-lg"
+                  type="button"
                   style={{ width: '100%' }}
                   onClick={handleVerify}
                   disabled={loading || otp.length !== 6}
                 >
-                  {loading ? 'Verifying...' : <>Verify & Create Account <CheckCircle2 size={16} /></>}
+                  {loading ? 'Verifying...' : <>Verify &amp; Create Account <CheckCircle2 size={16} /></>}
                 </button>
               </>
             )}
