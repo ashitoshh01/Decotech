@@ -13,10 +13,10 @@ const DEMO_USER: UserProfile = {
 };
 
 const DEMO_LISTINGS: Listing[] = [
-  { id: 'listing-1', seller_uid: 'demo-user-2', seller_phone: '+919876543211', crop_type: 'Wheat', quantity: 50, price_ac: 1100, image_url: '', village: 'Rampur', verification_count: 3, verified: true, verified_by: ['demo-user-3','demo-user-4','demo-user-5'], status: 'open', created_at: week },
-  { id: 'listing-2', seller_uid: 'demo-user-3', seller_phone: '+919876543212', crop_type: 'Rice', quantity: 30, price_ac: 2200, image_url: '', village: 'Rampur', verification_count: 2, verified: true, verified_by: ['demo-user-1','demo-user-4'], status: 'open', created_at: week },
+  { id: 'listing-1', seller_uid: 'demo-user-2', seller_phone: '+919876543211', crop_type: 'Wheat', quantity: 50, price_ac: 1100, image_url: '', village: 'Rampur', verification_count: 3, verified: true, verified_by: ['demo-user-3', 'demo-user-4', 'demo-user-5'], status: 'open', created_at: week },
+  { id: 'listing-2', seller_uid: 'demo-user-3', seller_phone: '+919876543212', crop_type: 'Rice', quantity: 30, price_ac: 2200, image_url: '', village: 'Rampur', verification_count: 2, verified: true, verified_by: ['demo-user-1', 'demo-user-4'], status: 'open', created_at: week },
   { id: 'listing-3', seller_uid: 'demo-user-4', seller_phone: '+919876543213', crop_type: 'Mustard', quantity: 20, price_ac: 5450, image_url: '', village: 'Rampur', verification_count: 1, verified: false, verified_by: ['demo-user-2'], status: 'open', created_at: now },
-  { id: 'listing-4', seller_uid: 'demo-user-5', seller_phone: '+919876543214', crop_type: 'Sugarcane', quantity: 100, price_ac: 315, image_url: '', village: 'Rampur', verification_count: 4, verified: true, verified_by: ['demo-user-1','demo-user-2','demo-user-3','demo-user-4'], status: 'open', created_at: twoWeeks },
+  { id: 'listing-4', seller_uid: 'demo-user-5', seller_phone: '+919876543214', crop_type: 'Sugarcane', quantity: 100, price_ac: 315, image_url: '', village: 'Rampur', verification_count: 4, verified: true, verified_by: ['demo-user-1', 'demo-user-2', 'demo-user-3', 'demo-user-4'], status: 'open', created_at: twoWeeks },
 ];
 
 const DEMO_TXNS: Transaction[] = [
