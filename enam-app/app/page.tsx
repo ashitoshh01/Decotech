@@ -155,7 +155,7 @@ export default function HomePage() {
             </div>
 
             <div className="hide-mobile anim-slideRight" style={{ display: 'flex', justifyContent: 'center', position: 'relative', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
-              <img src="/hero-farmer-new-2.jpg" alt="Indian Farmer" style={{ width: '100%', height: 'auto', borderRadius: '32px', objectFit: 'cover', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }} />
+              <img src="/hero-farmer-new-2.jpg" alt="Indian Farmer" className="anim-float" style={{ width: '100%', height: 'auto', borderRadius: '32px', objectFit: 'cover', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }} />
 
               {/* Live Trade Floating Card */}
               <div className="anim-float" style={{ position: 'absolute', top: 30, right: -30, background: 'white', padding: '16px 24px', borderRadius: '16px', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', display: 'flex', flexDirection: 'column', gap: 4, zIndex: 10 }}>

@@ -76,8 +76,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const sendOTP = async (phone: string, containerId: string): Promise<ConfirmationResult | null> => {
     if (DEMO_MODE || !auth) return null;
-    const verifier = new RecaptchaVerifier(auth, containerId, { size: 'invisible' });
-    return signInWithPhoneNumber(auth, phone, verifier);
+
+    try {
+      if (!(window as any).recaptchaVerifier) {
+        (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, containerId, { size: 'invisible' });
+      }
+      return await signInWithPhoneNumber(auth, phone, (window as any).recaptchaVerifier);
+    } catch (error) {
+      if ((window as any).recaptchaVerifier) {
+        try { (window as any).recaptchaVerifier.clear(); } catch (e) { }
+        (window as any).recaptchaVerifier = undefined;
+      }
+      throw error;
+    }
   };
 
   const verifyOTP = async (conf: ConfirmationResult | null, otp: string): Promise<UserProfile> => {
