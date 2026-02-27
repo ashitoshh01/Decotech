@@ -114,64 +114,72 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ═══ 2. HERO ═══ */}
-      <section className="section-lg gradient-hero" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
-        <div className="container">
-          <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 64, alignItems: 'center' }}>
-            <div className="anim-fadeUp">
-              <div className="section-chip" style={{ background: 'transparent', color: 'var(--green-600)', padding: 0, marginBottom: 24, fontSize: 12, letterSpacing: '0.05em', fontWeight: 700 }}>
-                <CheckCircle2 size={16} color="var(--green-600)" /> GOVERNMENT OF INDIA - SFAC INITIATIVE
-              </div>
-              <h1 className="display" style={{ marginBottom: 24, color: '#111827', fontWeight: 800, lineHeight: 1.1 }}>
-                India&rsquo;s Digital<br />
-                <span style={{ color: 'var(--green-500)' }}>Agriculture</span><br />
-                Exchange
-              </h1>
-              <p style={{ fontSize: 17, color: 'var(--text-secondary)', lineHeight: 1.7, maxWidth: 520, marginBottom: 40 }}>
-                Trade commodities, earn <strong>AgriCredits pegged to<br />Government MSP</strong>, and connect directly with 1.8 crore<br />farmers across 23 states. No middlemen.
-              </p>
-
-              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 48 }}>
-                <Link href="/register" className="btn btn-primary btn-lg" style={{ borderRadius: 'var(--radius-full)', padding: '16px 32px' }}>
-                  Start Trading Free <ArrowRight size={16} />
-                </Link>
-                <Link href="/listings" className="btn btn-outline btn-lg" style={{ borderRadius: 'var(--radius-full)', padding: '16px 32px' }}>
-                  Browse Marketplace
-                </Link>
-              </div>
-
-              <div style={{ display: 'flex', gap: 40, flexWrap: 'wrap' }}>
-                {[
-                  { label: 'Avg Farmer Gain', value: '+18%' },
-                  { label: 'Platform Fee', value: '1%' },
-                  { label: 'Settlement', value: '<24h' },
-                ].map((s, i) => (
-                  <div key={i} style={{ textAlign: 'left' }}>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--green-700)', fontFamily: 'Space Grotesk, sans-serif' }}>{s.value}</div>
-                    <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{s.label}</div>
-                  </div>
-                ))}
-              </div>
+      {/* ═══ 2. HERO - 50/50 SPLIT ═══ */}
+      <section style={{ minHeight: 'calc(100vh - 44px)', display: 'flex' }}>
+        {/* Left Side - Content */}
+        <div style={{ flex: 1, padding: '80px 64px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div className="anim-fadeUp" style={{ maxWidth: 640 }}>
+            <div className="section-chip" style={{ background: 'var(--green-50)', color: 'var(--green-700)', padding: '6px 14px', marginBottom: 24, fontSize: 13, letterSpacing: '0.05em', fontWeight: 700, borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 6, border: '1px solid var(--green-200)' }}>
+              <CheckCircle2 size={16} color="var(--green-600)" /> GOVERNMENT OF INDIA - SFAC INITIATIVE
             </div>
 
-            <div className="hide-mobile anim-slideRight" style={{ display: 'flex', justifyContent: 'center', position: 'relative', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
-              <img src="/hero-farmer-new-2.jpg" alt="Indian Farmer" className="anim-float" style={{ width: '100%', height: 'auto', borderRadius: '32px', objectFit: 'cover', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }} />
+            <h1 className="display" style={{ marginBottom: 24, color: '#111827', fontWeight: 800, lineHeight: 1.15, fontSize: 'clamp(3rem, 5vw, 4.5rem)' }}>
+              India&rsquo;s Digital<br />
+              <span style={{ color: 'var(--green-600)' }}>Agriculture</span><br />
+              Exchange
+            </h1>
 
-              {/* Live Trade Floating Card */}
-              <div className="anim-float" style={{ position: 'absolute', top: 30, right: -30, background: 'white', padding: '16px 24px', borderRadius: '16px', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', display: 'flex', flexDirection: 'column', gap: 4, zIndex: 10 }}>
-                <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 500 }}>Live Trade</span>
-                <span style={{ fontSize: 18, fontWeight: 800, color: 'var(--green-600)', fontFamily: 'Space Grotesk, sans-serif' }}>+₹3,240 earned</span>
-              </div>
+            <p style={{ fontSize: 18, color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: 40 }}>
+              Trade commodities, earn <strong>AgriCredits pegged to Government MSP</strong>, and connect directly with 1.8 crore farmers across 23 states. No middlemen, no delays.
+            </p>
 
-              {/* Wallet Balance Floating Card */}
-              <div className="anim-floatSlow" style={{ position: 'absolute', bottom: 40, left: -40, background: 'white', padding: '16px 24px', borderRadius: '16px', boxShadow: '0 8px 32px rgba(0,0,0,0.12)', display: 'flex', flexDirection: 'column', gap: 4, zIndex: 10 }}>
-                <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 500 }}>Wallet Balance</span>
-                <span style={{ fontSize: 18, fontWeight: 800, color: '#f59e0b', display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Space Grotesk, sans-serif' }}>
-                  <span style={{ background: '#f59e0b', color: 'white', padding: '4px', borderRadius: '50%', display: 'flex' }}><Coins size={14} /></span>
-                  2,840 AC
-                </span>
-              </div>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 48 }}>
+              <Link href="/register" className="btn btn-primary btn-lg" style={{ borderRadius: 'var(--radius-full)', padding: '0 36px', height: 60, fontSize: 16 }}>
+                Start Trading Free <ArrowRight size={18} />
+              </Link>
+              <Link href="/listings" className="btn btn-outline btn-lg" style={{ borderRadius: 'var(--radius-full)', padding: '0 36px', height: 60, fontSize: 16, background: 'white' }}>
+                Explore Market
+              </Link>
             </div>
+
+            <div style={{ display: 'flex', gap: 40, flexWrap: 'wrap', padding: '24px 0', borderTop: '1px solid var(--border)' }}>
+              {[
+                { label: 'Avg Farmer Gain', value: '+18%' },
+                { label: 'Platform Fee', value: '1%' },
+                { label: 'Settlement', value: '<24h' },
+              ].map((s, i) => (
+                <div key={i} style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--green-700)', fontFamily: 'Space Grotesk, sans-serif' }}>{s.value}</div>
+                  <div style={{ fontSize: 14, color: 'var(--text-muted)' }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Image/Visuals */}
+        <div className="hide-mobile anim-slideLeft" style={{ flex: 1, background: 'linear-gradient(135deg, var(--green-800), var(--green-950))', position: 'relative', overflow: 'hidden' }}>
+          <img
+            src="/hero-farmer-new-2.jpg"
+            alt="Indian Farmer"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, var(--green-950) 0%, transparent 20%, transparent 80%, rgba(2,44,34,0.4) 100%)' }} />
+
+          {/* Floating UI Elements */}
+          <div className="anim-float" style={{ position: 'absolute', top: '25%', right: 40, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', padding: '20px 24px', borderRadius: '20px', boxShadow: '0 24px 48px rgba(0,0,0,0.2)', display: 'flex', flexDirection: 'column', gap: 6, zIndex: 10, width: 220 }}>
+            <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}><TrendingUp size={14} color="var(--green-600)" /> Live Escrow Trade</span>
+            <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--green-700)', fontFamily: 'Space Grotesk, sans-serif' }}>+₹3,240</span>
+            <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Wheat &middot; Punjab</span>
+          </div>
+
+          <div className="anim-floatSlow" style={{ position: 'absolute', bottom: '25%', left: 40, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', padding: '20px 24px', borderRadius: '20px', boxShadow: '0 24px 48px rgba(0,0,0,0.2)', display: 'flex', flexDirection: 'column', gap: 6, zIndex: 10, width: 240 }}>
+            <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}><Wallet size={14} color="var(--amber-500)" /> Secure Wallet</span>
+            <span style={{ fontSize: 24, fontWeight: 800, color: 'var(--amber-500)', display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'Space Grotesk, sans-serif' }}>
+              <Coins size={20} />
+              2,840 AC
+            </span>
+            <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>≈ ₹64,610 value</span>
           </div>
         </div>
       </section>

@@ -159,8 +159,7 @@ export default function RegisterPage() {
             <Coins size={20} color="var(--amber-400)" />
             <span style={{ fontSize: 15, fontWeight: 700 }}>Welcome Gift</span>
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, fontFamily: 'Space Grotesk, sans-serif', marginBottom: 4 }}>50 AC</div>
-          <div style={{ fontSize: 12, opacity: 0.6 }}>Credited instantly on registration</div>
+          <div style={{ fontSize: 13, opacity: 0.8 }}><strong>50 AC</strong> credited instantly on registration.</div>
         </div>
       </div>
 
@@ -327,17 +326,6 @@ export default function RegisterPage() {
                   Enter the 6-digit code sent to <strong>+91 {phone}</strong>
                 </p>
 
-                <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 24 }}>
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className={`otp-box ${otp[i] ? 'filled' : ''} ${i === otp.length && otp.length < 6 ? 'focused' : ''}`}
-                    >
-                      {otp[i] || ''}
-                    </div>
-                  ))}
-                </div>
-
                 <input
                   className="input"
                   type="text"
@@ -346,6 +334,7 @@ export default function RegisterPage() {
                   onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   placeholder="Enter 6-digit OTP"
                   maxLength={6}
+                  autoFocus
                   style={{ textAlign: 'center', fontSize: 20, letterSpacing: 8, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, marginBottom: 20 }}
                 />
 

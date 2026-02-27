@@ -18,7 +18,7 @@ export default function WalletCard() {
             Available Balance
           </p>
           <p className="text-3xl md:text-4xl font-bold mt-1 tracking-tight">
-            {available.toLocaleString()} <span className="text-lg font-normal opacity-80">AC</span>
+            {(available || 0).toLocaleString()} <span className="text-lg font-normal opacity-80">AC</span>
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -37,7 +37,7 @@ export default function WalletCard() {
         <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-lg">
           <Lock size={13} className="text-yellow-300" />
           <span className="text-sm">
-            <span className="text-yellow-300 font-semibold">{locked.toLocaleString()}</span>{' '}
+            <span className="text-yellow-300 font-semibold">{(locked || 0).toLocaleString()}</span>{' '}
             <span className="text-emerald-200 text-xs">Locked</span>
           </span>
         </div>
