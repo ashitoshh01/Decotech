@@ -16,27 +16,34 @@ import {
   ShoppingBag,
   Coins,
   Home,
+  Globe,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const NAV_LINKS = [
-  { href: '/', label: 'Home', icon: Home },
-  { href: '/listings', label: 'Marketplace', icon: ShoppingBag },
-  { href: '/prices', label: 'Prices', icon: BarChart2 },
-  { href: '/dashboard', label: 'Dashboard', icon: BarChart2 },
-  { href: '/about', label: 'About', icon: User },
+  { href: '/', labelKey: 'home', icon: Home },
+  { href: '/listings', labelKey: 'listings', icon: ShoppingBag },
+  { href: '/dashboard', labelKey: 'dashboard', icon: BarChart2 },
+  { href: '/about', labelKey: 'about', icon: User },
 ] as const;
 
 export default function Navbar() {
+  const { t, i18n } = useTranslation();
   const { profile, logout } = useAuth();
   const { available } = useWallet();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownOpen(false);
+      }
+      if (langDropdownRef.current && !langDropdownRef.current.contains(e.target as Node)) {
+        setLangDropdownOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -113,7 +120,7 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <nav style={{ display: 'flex', alignItems: 'center', gap: 4 }} className="hide-mobile">
-            {NAV_LINKS.map(({ href, label }) => (
+            {NAV_LINKS.map(({ href, labelKey }) => (
               <Link
                 key={href}
                 href={href}
@@ -135,13 +142,72 @@ export default function Navbar() {
                   e.currentTarget.style.color = 'var(--text-secondary, #374151)';
                 }}
               >
-                {label}
+                {t(labelKey)}
               </Link>
             ))}
           </nav>
 
           {/* Right section */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            {/* Language switch */}
+            <div ref={langDropdownRef} style={{ position: 'relative', marginRight: 8 }} className="hide-mobile">
+              <button
+                onClick={() => setLangDropdownOpen((p) => !p)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '8px 12px',
+                  borderRadius: 8,
+                  border: '1px solid var(--border, rgba(0,0,0,0.08))',
+                  background: 'transparent',
+                  cursor: 'pointer',
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: 'var(--text-secondary, #374151)',
+                }}
+              >
+                <Globe size={16} />
+                {i18n.language.toUpperCase()}
+                <ChevronDown size={14} />
+              </button>
+
+              {langDropdownOpen && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: 'calc(100% + 8px)',
+                    width: 120,
+                    background: 'var(--bg-card, #ffffff)',
+                    borderRadius: 12,
+                    boxShadow: '0 12px 24px rgba(0,0,0,0.1)',
+                    overflow: 'hidden',
+                    zIndex: 110,
+                  }}
+                >
+                  <button
+                    onClick={() => { i18n.changeLanguage('en'); setLangDropdownOpen(false); }}
+                    style={{ width: '100%', padding: '10px 16px', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => { i18n.changeLanguage('hi'); setLangDropdownOpen(false); }}
+                    style={{ width: '100%', padding: '10px 16px', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+                  >
+                    हिन्दी
+                  </button>
+                  <button
+                    onClick={() => { i18n.changeLanguage('mr'); setLangDropdownOpen(false); }}
+                    style={{ width: '100%', padding: '10px 16px', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+                  >
+                    मराठी
+                  </button>
+                </div>
+              )}
+            </div>
+
             {profile ? (
               <>
                 {/* AC balance pill */}
@@ -242,9 +308,9 @@ export default function Navbar() {
                       </div>
 
                       <div style={{ padding: '6px 8px' }}>
-                        <DropdownLink href="/dashboard" icon={<BarChart2 size={16} />} label="Dashboard" onClick={() => setDropdownOpen(false)} />
+                        <DropdownLink href="/dashboard" icon={<BarChart2 size={16} />} label={t('dashboard')} onClick={() => setDropdownOpen(false)} />
                         <DropdownLink href="/dashboard" icon={<Wallet size={16} />} label="Wallet" onClick={() => setDropdownOpen(false)} />
-                        <DropdownLink href="/create" icon={<ShoppingBag size={16} />} label="My Listings" onClick={() => setDropdownOpen(false)} />
+                        <DropdownLink href="/create" icon={<ShoppingBag size={16} />} label={t('listings')} onClick={() => setDropdownOpen(false)} />
                       </div>
 
                       <div style={{ borderTop: '1px solid var(--border, rgba(0,0,0,0.06))', padding: '6px 8px' }}>
@@ -272,7 +338,7 @@ export default function Navbar() {
                           onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                         >
                           <LogOut size={16} />
-                          Sign out
+                          {t('logout')}
                         </button>
                       </div>
                     </div>
@@ -295,7 +361,7 @@ export default function Navbar() {
                   onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-muted, #f3f4f6)')}
                   onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                 >
-                  Sign in
+                  {t('login')}
                 </Link>
                 <Link
                   href="/register"
@@ -312,7 +378,7 @@ export default function Navbar() {
                   onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.9')}
                   onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
                 >
-                  Get Started
+                  {t('register')}
                 </Link>
               </div>
             )}
@@ -397,7 +463,7 @@ export default function Navbar() {
               </div>
             )}
 
-            {NAV_LINKS.map(({ href, label, icon: Icon }) => (
+            {NAV_LINKS.map(({ href, labelKey, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
@@ -416,7 +482,7 @@ export default function Navbar() {
                 }}
               >
                 <Icon size={18} style={{ color: 'var(--green-600, #16a34a)' }} />
-                {label}
+                {t(labelKey)}
               </Link>
             ))}
 

@@ -4,6 +4,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { WalletProvider } from '@/context/WalletContext';
 import { ChatProvider } from '@/context/ChatContext';
 import { Toaster } from 'react-hot-toast';
+import '@/lib/i18n'; // Import i18n setup
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (

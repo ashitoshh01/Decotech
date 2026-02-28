@@ -35,6 +35,7 @@ import {
   Shield
 } from 'lucide-react';
 import { MSP_RATES, AC_TO_INR } from '@/lib/agriCredit';
+import { useTranslation } from 'react-i18next';
 
 /* ── Ticker data ── */
 const TICKER_ITEMS = [
@@ -86,6 +87,7 @@ const TESTIMONIALS = [
 const TABLE_COMMODITIES = ['wheat', 'rice', 'maize', 'soybean', 'cotton', 'sugarcane', 'onion', 'tomato'];
 
 export default function HomePage() {
+  const { t } = useTranslation();
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
   useEffect(() => {
@@ -124,33 +126,33 @@ export default function HomePage() {
             </div>
 
             <h1 className="display" style={{ marginBottom: 24, color: '#111827', fontWeight: 800, lineHeight: 1.15, fontSize: 'clamp(3rem, 5vw, 4.5rem)' }}>
-              India&rsquo;s Digital<br />
-              <span style={{ color: 'var(--green-600)' }}>Agriculture</span><br />
-              Exchange
+              {t('hero_title1')}<br />
+              <span style={{ color: 'var(--green-600)' }}>{t('hero_title2')}</span><br />
+              {t('hero_title3')}
             </h1>
 
             <p style={{ fontSize: 18, color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: 40 }}>
-              Trade commodities, earn <strong>AgriCredits pegged to Government MSP</strong>, and connect directly with 1.8 crore farmers across 23 states. No middlemen, no delays.
+              {t('hero_desc')}
             </p>
 
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 48 }}>
               <Link href="/register" className="btn btn-primary btn-lg" style={{ borderRadius: 'var(--radius-full)', padding: '0 36px', height: 60, fontSize: 16 }}>
-                Start Trading Free <ArrowRight size={18} />
+                {t('hero_btn1')} <ArrowRight size={18} />
               </Link>
               <Link href="/listings" className="btn btn-outline btn-lg" style={{ borderRadius: 'var(--radius-full)', padding: '0 36px', height: 60, fontSize: 16, background: 'white' }}>
-                Explore Market
+                {t('hero_btn2')}
               </Link>
             </div>
 
             <div style={{ display: 'flex', gap: 40, flexWrap: 'wrap', padding: '24px 0', borderTop: '1px solid var(--border)' }}>
               {[
-                { label: 'Avg Farmer Gain', value: '+18%' },
-                { label: 'Platform Fee', value: '1%' },
-                { label: 'Settlement', value: '<24h' },
+                { labelKey: 'stats_avg_gain', value: '+18%' },
+                { labelKey: 'stats_fee', value: '1%' },
+                { labelKey: 'stats_settlement', value: '<24h' },
               ].map((s, i) => (
                 <div key={i} style={{ textAlign: 'left' }}>
                   <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--green-700)', fontFamily: 'Space Grotesk, sans-serif' }}>{s.value}</div>
-                  <div style={{ fontSize: 14, color: 'var(--text-muted)' }}>{s.label}</div>
+                  <div style={{ fontSize: 14, color: 'var(--text-muted)' }}>{t(s.labelKey)}</div>
                 </div>
               ))}
             </div>
@@ -216,7 +218,12 @@ export default function HomePage() {
           <div style={{ position: 'relative', paddingTop: 14 }}>
             <div className="hide-mobile" style={{ position: 'absolute', top: 36, left: '12.5%', right: '12.5%', height: 1, background: '#dcfce7' }} />
             <div className="steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, position: 'relative' }}>
-              {STEPS.map((s, i) => (
+              {[
+                { num: 1, titleKey: 'step1_title', descKey: 'step1_desc', icon: Sprout },
+                { num: 2, titleKey: 'step2_title', descKey: 'step2_desc', icon: Wheat },
+                { num: 3, titleKey: 'step3_title', descKey: 'step3_desc', icon: Users },
+                { num: 4, titleKey: 'step4_title', descKey: 'step4_desc', icon: ShieldCheck },
+              ].map((s, i) => (
                 <div key={i} className="anim-fadeUp" style={{ padding: '40px 24px', textAlign: 'center', animationDelay: `${i * 0.1}s`, background: 'white', borderRadius: 12, border: '1px solid #dcfce7', position: 'relative' }}>
                   <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', width: 28, height: 28, borderRadius: 'var(--radius-full)', background: '#16a34a', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontFamily: 'Space Grotesk, sans-serif', fontSize: 14 }}>
                     {s.num}
@@ -224,8 +231,8 @@ export default function HomePage() {
                   <div className="icon-box" style={{ margin: '0 auto 24px', background: '#f0fdf4', width: 64, height: 64, borderRadius: 16, color: '#16a34a' }}>
                     <s.icon size={28} />
                   </div>
-                  <h3 style={{ fontSize: 17, marginBottom: 12, fontWeight: 700, color: '#1f2937' }}>{s.title}</h3>
-                  <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6 }}>{s.desc}</p>
+                  <h3 style={{ fontSize: 17, marginBottom: 12, fontWeight: 700, color: '#1f2937' }}>{t(s.titleKey)}</h3>
+                  <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6 }}>{t(s.descKey)}</p>
                 </div>
               ))}
             </div>
@@ -238,25 +245,32 @@ export default function HomePage() {
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div className="section-chip" style={{ background: '#dcfce7', color: '#16a34a', border: '1px solid #bbf7d0' }}>
-              <Star size={14} /> WHY AGRITRADE
+              <Star size={14} /> {t('feature_why')}
             </div>
-            <h2 className="heading" style={{ color: '#064e3b', fontWeight: 800 }}>Policy-Grade Innovation</h2>
+            <h2 className="heading" style={{ color: '#064e3b', fontWeight: 800 }}>{t('feature_title')}</h2>
             <p style={{ color: 'var(--text-muted)', maxWidth: 560, margin: '16px auto 0', fontSize: 16 }}>
-              Built for India&rsquo;s 14 crore farmers. Every feature has a reason.
+              {t('feature_desc')}
             </p>
           </div>
           <div className="feat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
-            {FEATURES.map((f, i) => (
+            {[
+              { idx: 1, icon: Coins },
+              { idx: 2, icon: Lock },
+              { idx: 3, icon: MapPin },
+              { idx: 4, icon: ShieldCheck },
+              { idx: 5, icon: BarChart3 },
+              { idx: 6, icon: Zap },
+            ].map((f, i) => (
               <div key={i} className="anim-fadeUp" style={{ padding: 28, animationDelay: `${i * 0.08}s`, background: 'white', border: i === 4 ? '1px solid #86efac' : '1px solid #e5e7eb', borderRadius: 16, display: 'flex', gap: 20 }}>
                 <div className="icon-box" style={{ background: '#f0fdf4', color: '#16a34a', borderRadius: 12, width: 48, height: 48, flexShrink: 0 }}>
                   <f.icon size={22} />
                 </div>
                 <div>
                   <div style={{ display: 'inline-block', background: '#dcfce7', color: '#16a34a', fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 999, marginBottom: 12 }}>
-                    {f.tag}
+                    {t(`f${f.idx}_tag`)}
                   </div>
-                  <h3 style={{ fontSize: 16, marginBottom: 8, fontWeight: 700, color: '#1f2937' }}>{f.title}</h3>
-                  <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>{f.desc}</p>
+                  <h3 style={{ fontSize: 16, marginBottom: 8, fontWeight: 700, color: '#1f2937' }}>{t(`f${f.idx}_title`)}</h3>
+                  <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>{t(`f${f.idx}_desc`)}</p>
                 </div>
               </div>
             ))}
@@ -270,51 +284,31 @@ export default function HomePage() {
           <div className="ac-expl-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: 64, alignItems: 'center' }}>
             <div>
               <div className="section-chip" style={{ background: '#dcfce7', color: '#16a34a', border: '1px solid #bbf7d0', padding: '6px 14px', marginBottom: 24 }}>
-                <Link href="#" style={{ display: 'flex', alignItems: 'center', gap: 6 }}><Coins size={14} /> WHY AGRITRADE</Link>
+                <Link href="#" style={{ display: 'flex', alignItems: 'center', gap: 6 }}><Coins size={14} /> {t('feature_why')}</Link>
               </div>
               <h2 className="heading" style={{ color: '#064e3b', fontWeight: 800, marginBottom: 12, lineHeight: 1.2 }}>
-                The Credit System That<br />
-                <span style={{ color: '#22c55e' }}>Protects Farmers</span>
+                {t('ac_expl_h1')}<br />
+                <span style={{ color: '#22c55e' }}>{t('ac_expl_h2')}</span>
               </h2>
               <p style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 40 }}>
-                Built for India&rsquo;s 14 crore farmers. Every feature has a reason.
+                {t('feature_desc')}
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
                 {[
-                  {
-                    icon: Coins,
-                    title: 'MSP Pegging = Stable Value',
-                    desc: '1 AC = ₹22.75 (wheat MSP per kg). Government revises MSP annually — your credits adjust too.'
-                  },
-                  {
-                    icon: Lock,
-                    title: 'Escrow = Zero Risk',
-                    desc: 'Credits locked at bid. You deliver crop → credits auto-release. No payment delays, no disputes.'
-                  },
-                  {
-                    icon: BarChart2,
-                    title: '1% Fee = Sustainable Platform',
-                    desc: 'Trade 2000 AC? Pay 20 AC. You keep 1980 AC. Traditional mandi charges 2–5% — we\'re always cheaper.'
-                  },
-                  {
-                    icon: TrendingUp,
-                    title: 'Earn While Participating',
-                    desc: 'List (+5 AC), Complete trade (+10 AC), Verify farmer (+15 AC), Refer (+50 AC).'
-                  },
-                  {
-                    icon: Clock,
-                    title: 'Anti-Hoarding Mechanism',
-                    desc: 'Credits inactive 12+ months decay at 2%/month. Keeps the economy liquid.'
-                  }
+                  { icon: Coins, idx: 1 },
+                  { icon: Lock, idx: 2 },
+                  { icon: BarChart2, idx: 3 },
+                  { icon: TrendingUp, idx: 4 },
+                  { icon: Clock, idx: 5 }
                 ].map((item, i) => (
                   <div key={i} className="anim-fadeUp" style={{ display: 'flex', gap: 20, alignItems: 'flex-start', animationDelay: `${i * 0.1}s` }}>
                     <div style={{ background: '#f0fdf4', color: '#16a34a', padding: 12, borderRadius: 12, flexShrink: 0 }}>
                       <item.icon size={20} />
                     </div>
                     <div>
-                      <h4 style={{ fontSize: 16, fontWeight: 700, color: '#1f2937', marginBottom: 4 }}>{item.title}</h4>
-                      <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6 }}>{item.desc}</p>
+                      <h4 style={{ fontSize: 16, fontWeight: 700, color: '#1f2937', marginBottom: 4 }}>{t(`ac_p${item.idx}_title`)}</h4>
+                      <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6 }}>{t(`ac_p${item.idx}_desc`)}</p>
                     </div>
                   </div>
                 ))}
@@ -375,20 +369,20 @@ export default function HomePage() {
         <div className="container" style={{ maxWidth: 880 }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <div className="section-chip" style={{ background: '#dcfce7', color: '#16a34a', border: 'none', padding: '6px 14px', marginBottom: 20, display: 'inline-flex', alignItems: 'center', gap: 6, borderRadius: 999, fontSize: 12, fontWeight: 700, letterSpacing: '0.05em' }}>
-              <TrendingUp size={14} /> PRICE REFERENCE
+              <TrendingUp size={14} /> {t('ref_pill')}
             </div>
-            <h2 className="heading" style={{ color: '#064e3b', fontWeight: 800 }}>MSP &rarr; AgriCredit Conversion</h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: 16, marginTop: 12 }}>Government MSP 2024-25. Auto-calculated in real time.</p>
+            <h2 className="heading" style={{ color: '#064e3b', fontWeight: 800 }}>{t('ref_title')}</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: 16, marginTop: 12 }}>{t('ref_desc')}</p>
           </div>
 
           <div style={{ background: 'white', borderRadius: 16, border: '1px solid #bbf7d0', overflow: 'hidden', boxShadow: '0 12px 32px rgba(22,163,74,0.05)' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
                 <tr style={{ background: '#14532d', color: '#a7f3d0' }}>
-                  <th style={{ padding: '18px 24px', textAlign: 'left', fontSize: 11, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Commodity</th>
-                  <th style={{ padding: '18px 24px', textAlign: 'left', fontSize: 11, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>MSP / Quintal</th>
-                  <th style={{ padding: '18px 24px', textAlign: 'left', fontSize: 11, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>MSP / KG</th>
-                  <th style={{ padding: '18px 24px', textAlign: 'left', fontSize: 11, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Value in AC</th>
+                  <th style={{ padding: '18px 24px', textAlign: 'left', fontSize: 11, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>{t('ref_th1')}</th>
+                  <th style={{ padding: '18px 24px', textAlign: 'left', fontSize: 11, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>{t('ref_th2')}</th>
+                  <th style={{ padding: '18px 24px', textAlign: 'left', fontSize: 11, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>{t('ref_th3')}</th>
+                  <th style={{ padding: '18px 24px', textAlign: 'left', fontSize: 11, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>{t('ref_th4')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -419,7 +413,7 @@ export default function HomePage() {
 
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 32 }}>
             <Link href="/prices" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', borderRadius: 12, border: '1px solid #22c55e', color: '#16a34a', fontWeight: 600, fontSize: 15, background: 'white', transition: 'all 0.2s' }}>
-              View all 190+ commodities <ChevronRight size={16} />
+              {t('ref_btn')} <ChevronRight size={16} />
             </Link>
           </div>
         </div>
@@ -431,17 +425,16 @@ export default function HomePage() {
           <div style={{ background: '#166534', width: 56, height: 56, borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 32 }}>
             <Leaf size={28} color="#86efac" />
           </div>
-          <h2 className="heading" style={{ color: 'white', marginBottom: 24, fontSize: 36, fontWeight: 800 }}>Ready to Change How India<br />Farms?</h2>
+          <h2 className="heading" style={{ color: 'white', marginBottom: 24, fontSize: 36, fontWeight: 800 }}>{t('cta_title')}</h2>
           <p style={{ color: 'white', fontSize: 16, maxWidth: 600, margin: '0 auto 40px', lineHeight: 1.7 }}>
-            Join 1.8 crore farmers already trading on AgriTrade. 50 AgriCredits credited<br />
-            instantly on signup.
+            {t('cta_desc')}
           </p>
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 32 }}>
             <Link href="/register" style={{ background: '#f59e0b', color: 'white', padding: '14px 28px', borderRadius: 8, fontWeight: 600, fontSize: 15, display: 'flex', alignItems: 'center', gap: 8, transition: 'all 0.2s', border: 'none' }}>
-              Register as Farmer — Free <ArrowRight size={18} />
+              {t('cta_btn1')} <ArrowRight size={18} />
             </Link>
             <Link href="/login" style={{ background: 'white', color: '#14532d', padding: '14px 40px', borderRadius: 8, fontWeight: 700, fontSize: 15, display: 'flex', alignItems: 'center', gap: 8, transition: 'all 0.2s', border: 'none' }}>
-              Sign In
+              {t('cta_btn2')}
             </Link>
           </div>
           <p style={{ color: '#4ade80', fontSize: 12, fontWeight: 500 }}>
