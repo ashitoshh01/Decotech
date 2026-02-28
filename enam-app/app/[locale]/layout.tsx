@@ -13,15 +13,28 @@ export const metadata: Metadata = {
   description: 'MSP-pegged, escrow-secured rural credit clearing system',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+
+export default async function RootLayout({
+  children,
+  params: { locale }
+}: {
+  children: React.ReactNode;
+  params: { locale: string };
+}) {
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className={inter.className}>
-        <Providers>
-          <Navbar />
-          {children}
-          <Chatbot />
-        </Providers>
+        <NextIntlClientProvider messages={messages}>
+          <Providers>
+            <Navbar />
+            {children}
+            <Chatbot />
+          </Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

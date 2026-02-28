@@ -18,7 +18,8 @@ import {
   Home,
   Globe,
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
+import LanguageDropdown from './LanguageDropdown';
 
 const NAV_LINKS = [
   { href: '/', labelKey: 'home', icon: Home },
@@ -28,22 +29,17 @@ const NAV_LINKS = [
 ] as const;
 
 export default function Navbar() {
-  const { t, i18n } = useTranslation();
+  const t = useTranslations();
   const { profile, logout } = useAuth();
   const { available } = useWallet();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const langDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownOpen(false);
-      }
-      if (langDropdownRef.current && !langDropdownRef.current.contains(e.target as Node)) {
-        setLangDropdownOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -150,63 +146,7 @@ export default function Navbar() {
           {/* Right section */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             {/* Language switch */}
-            <div ref={langDropdownRef} style={{ position: 'relative', marginRight: 8 }} className="hide-mobile">
-              <button
-                onClick={() => setLangDropdownOpen((p) => !p)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  padding: '8px 12px',
-                  borderRadius: 8,
-                  border: '1px solid var(--border, rgba(0,0,0,0.08))',
-                  background: 'transparent',
-                  cursor: 'pointer',
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: 'var(--text-secondary, #374151)',
-                }}
-              >
-                <Globe size={16} />
-                {i18n.language.toUpperCase()}
-                <ChevronDown size={14} />
-              </button>
-
-              {langDropdownOpen && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    top: 'calc(100% + 8px)',
-                    width: 120,
-                    background: 'var(--bg-card, #ffffff)',
-                    borderRadius: 12,
-                    boxShadow: '0 12px 24px rgba(0,0,0,0.1)',
-                    overflow: 'hidden',
-                    zIndex: 110,
-                  }}
-                >
-                  <button
-                    onClick={() => { i18n.changeLanguage('en'); setLangDropdownOpen(false); }}
-                    style={{ width: '100%', padding: '10px 16px', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
-                  >
-                    English
-                  </button>
-                  <button
-                    onClick={() => { i18n.changeLanguage('hi'); setLangDropdownOpen(false); }}
-                    style={{ width: '100%', padding: '10px 16px', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
-                  >
-                    हिन्दी
-                  </button>
-                  <button
-                    onClick={() => { i18n.changeLanguage('mr'); setLangDropdownOpen(false); }}
-                    style={{ width: '100%', padding: '10px 16px', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
-                  >
-                    मराठी
-                  </button>
-                </div>
-              )}
-            </div>
+            <LanguageDropdown />
 
             {profile ? (
               <>

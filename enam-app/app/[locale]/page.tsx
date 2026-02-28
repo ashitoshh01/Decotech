@@ -35,7 +35,7 @@ import {
   Shield
 } from 'lucide-react';
 import { MSP_RATES, AC_TO_INR } from '@/lib/agriCredit';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 /* ── Ticker data ── */
 const TICKER_ITEMS = [
@@ -87,7 +87,7 @@ const TESTIMONIALS = [
 const TABLE_COMMODITIES = ['wheat', 'rice', 'maize', 'soybean', 'cotton', 'sugarcane', 'onion', 'tomato'];
 
 export default function HomePage() {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
   useEffect(() => {
