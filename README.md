@@ -12,7 +12,6 @@ npm run start      # Production server
 ```
 
 ## 📂 Project Structure
-
 ```
 src/
 ├── app/
