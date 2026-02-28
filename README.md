@@ -1,3 +1,5 @@
+#TO SIGN IN ADD THE PHONE NO as +91 9999999999 and OTP : ANY 6 DIGIT NO.
+
 # AgriTrade — Next.js 15 + Firebase + TailwindCSS
 
 A production-ready digital agricultural marketplace inspired by the Government of India's AgriTrade portal.
