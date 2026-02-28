@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname } from '@/lib/navigation';
 import { Globe, ChevronDown } from 'lucide-react';
 
 export default function LanguageDropdown() {
@@ -11,19 +11,7 @@ export default function LanguageDropdown() {
 
     const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const nextLocale = e.target.value;
-
-        // We construct the new path considering we want to replace the initial locale.
-        // e.g. /en/home -> /hi/home.
-        // pathname here comes from next/navigation, so it includes the locale!
-        const segments = pathname.split('/');
-        if (segments.length > 1 && ['en', 'hi', 'es'].includes(segments[1])) {
-            segments[1] = nextLocale;
-        } else {
-            segments.splice(1, 0, nextLocale); // Add it if not present
-        }
-
-        const newPath = segments.join('/');
-        router.replace(newPath);
+        router.replace(pathname, { locale: nextLocale });
     };
 
     return (

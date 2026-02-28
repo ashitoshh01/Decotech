@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import {
   Menu,
   X,
@@ -36,6 +36,7 @@ import {
 } from 'lucide-react';
 import { MSP_RATES, AC_TO_INR } from '@/lib/agriCredit';
 import { useTranslations } from 'next-intl';
+import { useRouter, usePathname } from '@/lib/navigation';
 
 /* ── Ticker data ── */
 const TICKER_ITEMS = [

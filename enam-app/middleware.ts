@@ -1,10 +1,12 @@
 import createMiddleware from 'next-intl/middleware';
+import { locales } from './lib/navigation';
 
 export default createMiddleware({
-  locales: ['en', 'hi', 'es'],
+  locales,
   defaultLocale: 'en'
 });
 
 export const config = {
-  matcher: ['/', '/(hi|en|es)/:path*']
+  // Match all routes except Next.js internals and static files
+  matcher: ['/((?!_next|_vercel|.*\\..*).*)']
 };
