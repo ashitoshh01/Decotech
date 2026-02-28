@@ -10,7 +10,6 @@ npm run dev        # Development server at localhost:3000
 npm run build      # Production build
 npm run start      # Production server
 ```
-
 ## 📂 Project Structure
 ```
 src/
