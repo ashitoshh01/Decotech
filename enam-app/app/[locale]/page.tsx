@@ -168,21 +168,7 @@ export default function HomePage() {
           />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, var(--green-950) 0%, transparent 20%, transparent 80%, rgba(2,44,34,0.4) 100%)' }} />
 
-          {/* Floating UI Elements */}
-          <div className="anim-float" style={{ position: 'absolute', top: '25%', right: 40, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', padding: '20px 24px', borderRadius: '20px', boxShadow: '0 24px 48px rgba(0,0,0,0.2)', display: 'flex', flexDirection: 'column', gap: 6, zIndex: 10, width: 220 }}>
-            <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}><TrendingUp size={14} color="var(--green-600)" /> Live Escrow Trade</span>
-            <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--green-700)', fontFamily: 'Space Grotesk, sans-serif' }}>+₹3,240</span>
-            <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Wheat &middot; Punjab</span>
-          </div>
 
-          <div className="anim-floatSlow" style={{ position: 'absolute', bottom: '25%', left: 40, background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', padding: '20px 24px', borderRadius: '20px', boxShadow: '0 24px 48px rgba(0,0,0,0.2)', display: 'flex', flexDirection: 'column', gap: 6, zIndex: 10, width: 240 }}>
-            <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}><Wallet size={14} color="var(--amber-500)" /> Secure Wallet</span>
-            <span style={{ fontSize: 24, fontWeight: 800, color: 'var(--amber-500)', display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'Space Grotesk, sans-serif' }}>
-              <Coins size={20} />
-              2,840 AC
-            </span>
-            <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>≈ ₹64,610 value</span>
-          </div>
         </div>
       </section>
 
